@@ -28,6 +28,12 @@ struct TreeNode *allocate_node(const char *value) {
  *                the image and the last one is the filename
  */
 void tree_insert(struct TreeNode *root, char **values) {
+
+	struct TreeNode *p = NULL;
+
+	p = root;
+
+
 }
 
 /**

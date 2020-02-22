@@ -14,5 +14,12 @@
  */
 int tokenize(char *cmd, char **cmd_argv) {
         // returning 0 for now, so the compiler does not complain
-	return 0;
+	int count = 0;
+
+        while ((strtok(cmd), DELIMITERS) != NULL) {
+                cmd_argv[count] = strtok(cmd, DELIMITERS);
+                count++;
+        }
+
+        return count;
 }
