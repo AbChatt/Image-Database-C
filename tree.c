@@ -18,9 +18,9 @@
  */
 struct TreeNode *allocate_node(const char *value) {
 
-	struct TreeNode *new_node = (struct TreeNode *)malloc(1, sizeof(struct TreeNode));
+	struct TreeNode *new_node = malloc(1 * sizeof(struct TreeNode));
 
-	new_node->value = value;
+	strcpy(new_node->value, value);
 	new_node->child = NULL;
 	new_node->sibling = NULL;
 
@@ -36,10 +36,7 @@ struct TreeNode *allocate_node(const char *value) {
  */
 void tree_insert(struct TreeNode *root, char **values) {
 
-	struct TreeNode *p = NULL;
-
-	p = root;
-
+	//struct TreeNode *p = root;	// to avoid lack of const modifier errors
 
 }
 
@@ -51,32 +48,32 @@ void tree_insert(struct TreeNode *root, char **values) {
  */
 void tree_search(const struct TreeNode *root, char **values) {
 
-	struct TreeNode *p = NULL;
+	//struct TreeNode *p = NULL;
 	int level = 0;
 
-	p = root;
+	//p = root;
 
 	// loop for finding files with these attributes
 
-	while (p->child != NULL) {
-		if (strcmp(p->value, values[level]) == 0) {
-			p = p->child;
+	while (root->child != NULL) {
+		if (strcmp(root->value, values[level]) == 0) {
+			root = root->child;
 			level++;
 		}
-		else if (strcmp(p->value, values[level]) > 0) {
-			p = p->sibling;
+		else if (strcmp(root->value, values[level]) > 0) {
+			root = root->sibling;
 		}
-		else if (strcmp(p->value, values[level]) < 0) {
+		else if (strcmp(root->value, values[level]) < 0) {
 			// values does not exist
 			break;
 		}
 	}
 
 	// loop for printing out files with these attributes
-	if (p->child == NULL) {
-		while (p->sibling != NULL) {
-			printf("%s", p->value);
-			p = p->sibling;
+	if (root->child == NULL) {
+		while (root->sibling != NULL) {
+			printf("%s", root->value);
+			root = root->sibling;
 		}
 	}
 	
@@ -88,5 +85,5 @@ void tree_search(const struct TreeNode *root, char **values) {
  *  @param tree A pointer to the root of the tree.
  */
 void tree_print(const struct TreeNode *tree) {
-	
+
 }

@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>     // check if we're allowed to import string.h
 
 #include "tree.h"
 #include "utils.h"
@@ -27,34 +28,38 @@ int main(void) {
         // Add your code below:
 
         int count;
-        FILE *file;
-        char arr[5];
+        char* arr = malloc(5 * sizeof(char *));
+        int i;
 
-        while (fgets(buf, BUFFER_SIZE, stdin) != EOF) {
+        while (fgets(buf, BUFFER_SIZE, stdin) != NULL) {
                 count = tokenize(fgets(buf, BUFFER_SIZE, stdin), args);
 
-                if (args[0] == 'i') {
+                if (strcmp(args[0],"i") == 0) {
                         if (count == 5) {
-                                arr = {args[1], args[2], args[3], args[4], '\0'};
-                                tree_insert(root_ptr, arr);
+                                for (i = 0; i < count - 1; i++) {
+                                        *(arr + i) = *(args)[i + 1];
+                                }
+                                tree_insert(root_ptr, &arr);
                         }
 
-                        fprintf(stderr, "Invalid command.");
+                        fprintf(stderr, "Invalid command.\n");
                 }
-                else if (args[0] == 'q') {
+                else if (strcmp(args[0], "q") == 0) {
                         if (count == 4) {
-                                arr = {args[1], args[2], args[3], '\0'};
-                                tree_search(root_ptr, arr);
+                                for (int i = 0; i < count - 1; i++) {
+                                        *(arr + i) = *(args)[i + 1];
+                                }
+                                tree_search(root_ptr, &arr);
                         }
 
-                        fprintf(stderr, "Invalid command.");
+                        fprintf(stderr, "Invalid command.\n");
                 }
-                else if (args[0] == 'p') {
+                else if (strcmp(args[0], "p") == 0) {
                         tree_print(root_ptr);
                 }
                 else
                 {
-                        fprintf(stderr, "Invalid command.");
+                        fprintf(stderr, "Invalid command.\n");
                 }
                                 
         }
