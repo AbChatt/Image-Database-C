@@ -47,18 +47,18 @@ void tree_insert(struct TreeNode *root, char **values) {
 
 	while (i < 5) {
 		while (root != NULL) {
-			if (strcmp(root->value, *(*(values) + i)) < 0) {
+			if (strcmp(root->value, *(values) + i) < 0) {
 				p = root;
 				root = root->sibling;
 			}
-			else if (strcmp(root->value, *(*(values) + i)) > 0 && strcmp(p->value, *(*(values) + i)) < 0) {
-				new_node = allocate_node(*(*(values) + i));
+			else if (strcmp(root->value, *(values) + i) > 0 && strcmp(p->value, *(values) + i) < 0) {
+				new_node = allocate_node(*(values) + i);
 				new_node->sibling = root;
 				p->sibling = new_node;
 				root = new_node->child;
 				i++;
 			}
-			else if (strcmp(root->value, *(*(values) + i)) == 0) {
+			else if (strcmp(root->value, *(values) + i) == 0) {
 				p = root;
 				root = root->child;
 				i++;
@@ -68,7 +68,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 		// handles insertion at starting and ending of level
 		
 		if (i == current_level) {
-			new_node = allocate_node(*(*(values) + i));
+			new_node = allocate_node(*(values) + i);
 			p->sibling = new_node;
 			root = new_node->child;
 			i++;
