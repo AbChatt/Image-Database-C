@@ -36,7 +36,35 @@ struct TreeNode *allocate_node(const char *value) {
  */
 void tree_insert(struct TreeNode *root, char **values) {
 
-	//struct TreeNode *p = root;	// to avoid lack of const modifier errors
+	struct TreeNode *p = NULL;
+	struct TreeNode *new_node = NULL;
+
+	root = root->child;
+	int i = 0;
+
+	// only handles insertion along a level somewhere in the middle, not at start or end
+
+	while (root != NULL) {
+		if (strcmp(root->value, *(*(values) + i)) < 0) {
+			p = root;
+			root = root->sibling;
+		}
+		else if (strcmp(root->value, *(*(values) + i)) > 0 && strcmp(p->value, *(*(values) + i)) < 0) {
+			new_node = allocate_node(*(*(values) + i));
+			new_node->sibling = root;
+			p->sibling = new_node;
+			root = new_node->child;
+			i++;
+		}
+		else if (strcmp(root->value, *(*(values) + i)) == 0) {
+			p = root;
+			root = root->child;
+			i++;
+		}
+	}
+
+
+	// insert file name here
 
 }
 
