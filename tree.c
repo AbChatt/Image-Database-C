@@ -110,7 +110,7 @@ void tree_search(const struct TreeNode *root, char **values) {
 
 	// loop for printing out files with these attributes
 	if (root->child == NULL) {
-		while (root->sibling != NULL) {
+		while (root != NULL) {
 			printf("%s", root->value);
 			root = root->sibling;
 		}
