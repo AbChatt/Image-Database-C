@@ -3,8 +3,7 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>     // check if we're allowed to import string.h
+#include <stdlib.h>     // not allowed to import string.h
 
 #include "tree.h"
 #include "utils.h"
@@ -28,34 +27,32 @@ int main(void) {
         // Add your code below:
 
         int count;
-        char* arr = malloc(5 * sizeof(char *));
-        int i;
+        //char* arr = malloc(5 * sizeof(char *));
+        //int i;
 
         while (fgets(buf, BUFFER_SIZE, stdin) != NULL) {
-                count = tokenize(fgets(buf, BUFFER_SIZE, stdin), args);
+                count = tokenize(buf, args);    // fgets populates buf with the next line from the stream during the while loop condition check
 
-                if (strcmp(args[0],"i") == 0) {
+                if (*(*(args)) == 'i') {        // comparing first string to i
                         if (count == 5) {
-                                for (i = 0; i < count - 1; i++) {
-                                        *(arr + i) = *(args)[i + 1];
-                                }
-                                tree_insert(root_ptr, &arr);
+                                tree_insert(root_ptr, args);    // not compiling as before with ./name arg 1 so args does not include ./name
                         }
-
-                        fprintf(stderr, "Invalid command.\n");
+                        else
+                        {
+                                fprintf(stderr, "Invalid command.\n");
+                        }
                 }
-                else if (strcmp(args[0], "q") == 0) {
+                else if (*(*(args)) == 'q') {
                         if (count == 4) {
-                                for (int i = 0; i < count - 1; i++) {
-                                        *(arr + i) = *(args)[i + 1];
-                                }
-                                tree_search(root_ptr, &arr);
+                                tree_search(root_ptr, args);
                         }
-
-                        fprintf(stderr, "Invalid command.\n");
+                        else
+                        {
+                                fprintf(stderr, "Invalid command.\n");
+                        }
                 }
-                else if (strcmp(args[0], "p") == 0) {
-                        tree_print(root_ptr);
+                else if (*(*(args)) == 'p') {
+                        tree_print(root_ptr);   // should add an if statement checking for arg count
                 }
                 else
                 {

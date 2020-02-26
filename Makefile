@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -std=gnu99
+CFLAGS = -g -Wall -Werror -std=gnu99
 SOURCE = *.c
 HEADERS = tree.h utils.h
 OBJ = tree.o utils.o image_database.o

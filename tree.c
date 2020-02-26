@@ -19,7 +19,8 @@
 struct TreeNode *allocate_node(const char *value) {
 
 	struct TreeNode *new_node = malloc(1 * sizeof(struct TreeNode));
-
+	new_node->value = malloc(INPUT_ARG_MAX_NUM * sizeof(char));		// need space to store value
+	
 	strcpy(new_node->value, value);
 	new_node->child = NULL;
 	new_node->sibling = NULL;
@@ -39,7 +40,6 @@ void tree_insert(struct TreeNode *root, char **values) {
 	struct TreeNode *p = NULL;
 	struct TreeNode *new_node = NULL;
 
-	root = root->child;
 	int i = 0;
 	int current_level = i;
 

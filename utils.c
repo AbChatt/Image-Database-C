@@ -15,10 +15,13 @@
 int tokenize(char *cmd, char **cmd_argv) {
         // returning 0 for now, so the compiler does not complain
 	int count = 0;
+        //char *segment;
+        char *segment = strtok_r(cmd, DELIMITERS, &cmd);        // first call to strtok_r returns pointer to first segment
 
-        while ((strtok(cmd, DELIMITERS)) != NULL) {
-                cmd_argv[count] = strtok(cmd, DELIMITERS);
+        while (segment != NULL) {
+                cmd_argv[count] = segment;
                 count++;
+                segment = strtok_r(cmd, DELIMITERS, &cmd);      // subsequent calls return pointers to following segments
         }
 
         return count;
