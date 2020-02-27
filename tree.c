@@ -40,14 +40,26 @@ void tree_insert(struct TreeNode *root, char **values) {
 	struct TreeNode *p = NULL;
 	struct TreeNode *new_node = NULL;
 
-	int i = 0;
+	int i = 1;
 	int current_level = i;
+
+	// insertion code for when tree is empty
+
+	if (root->child == NULL) {
+		for (int j = 1; j < 5; j++) {
+		new_node = allocate_node(*(values + j));
+		root->child = new_node;
+		root = root->child;
+		}
+
+		return;
+	}
 
 	// only handles insertion along a level somewhere in the middle, not at start or end
 
 	while (i < 5) {
 		while (root != NULL) {
-			if (strcmp(root->value, *(values) + i) < 0) {
+			if (strcmp(root->value, *(values + i)) < 0) {
 				p = root;
 				root = root->sibling;
 			}
