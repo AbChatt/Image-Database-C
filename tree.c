@@ -85,6 +85,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 				new_node->sibling = root;
 				p->child = new_node;
 				root = new_node->child;
+				p = new_node;
 				i++;
 			}
 		}
@@ -92,10 +93,26 @@ void tree_insert(struct TreeNode *root, char **values) {
 		// handles insertion at ending of level / if level is empty
 		
 		if (i == current_level) {
-			new_node = allocate_node(*(values + i));
-			p->sibling = new_node;
-			root = new_node->child;
-			i++;
+
+			// case 1: traversed all nodes in this level i.e. adding a new ending node
+
+			if (&p->sibling == &root) {
+				new_node = allocate_node(*(values + i));
+				p->sibling = new_node;
+				root = new_node->child;
+				p = new_node;
+				i++;
+			}
+
+			// case 2: no nodes in this level, i.e. adding a new starting node
+
+			else {
+				new_node = allocate_node(*(values + i));
+				p->child = new_node;
+				root = new_node->child;
+				p = new_node;
+				i++;
+			}
 		}
 
 		current_level++;
