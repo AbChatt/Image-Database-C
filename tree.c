@@ -162,11 +162,15 @@ void tree_search(const struct TreeNode *root, char **values) {
 			level++;
 		}
 		else if (strcmp(root->value, values[level]) > 0) {
-			root = root->sibling;
+			// value does not exist
+			break;
 		}
 		else if (strcmp(root->value, values[level]) < 0) {
-			// values does not exist
-			break;
+			if (root->sibling == NULL) {	// if there are no more siblings and current node is not what we are looking for
+				printf("(NULL)\n");
+				return;
+			}
+			root = root->sibling;
 		}
 	}
 
@@ -181,7 +185,7 @@ void tree_search(const struct TreeNode *root, char **values) {
 	}
 	else
 	{
-		printf("(NULL)\n\n");
+		printf("(NULL)\n");
 	}
 	
 	
