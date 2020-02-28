@@ -55,6 +55,8 @@ void tree_insert(struct TreeNode *root, char **values) {
 		return;
 	}
 
+	root = root->child;		// skip root node containing empty string as value
+
 	// only handles insertion along a level somewhere in the middle, not at start or end
 
 	while (i < 5) {
@@ -75,9 +77,19 @@ void tree_insert(struct TreeNode *root, char **values) {
 				root = root->child;
 				i++;
 			}
+
+			// handles insertion at starting of level when other nodes are already present on level
+
+			else if (strcmp(root->value, *(values + i)) > 0) {
+				new_node = allocate_node(*(values + i));
+				new_node->sibling = root;
+				p->child = new_node;
+				root = new_node->child;
+				i++;
+			}
 		}
 
-		// handles insertion at starting and ending of level
+		// handles insertion at ending of level / if level is empty
 		
 		if (i == current_level) {
 			new_node = allocate_node(*(values + i));
@@ -100,7 +112,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 void tree_search(const struct TreeNode *root, char **values) {
 
 	//struct TreeNode *p = NULL;
-	int level = 0;
+	int level = 1;
 
 	//p = root;
 
