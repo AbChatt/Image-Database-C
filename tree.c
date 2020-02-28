@@ -42,6 +42,8 @@ void tree_insert(struct TreeNode *root, char **values) {
 
 	int i = 1;
 	int current_level = i;
+	int p_level = 0;
+	int root_level = 0;
 
 	// insertion code for when tree is empty
 
@@ -56,25 +58,39 @@ void tree_insert(struct TreeNode *root, char **values) {
 	}
 
 	root = root->child;		// skip root node containing empty string as value
+	root_level++;
 
 	// only handles insertion along a level somewhere in the middle, not at start or end
 
 	while (i < 5) {
 		while (root != NULL) {
+
+			// haven't found spot to insert into, keep traversing along level
+
 			if (strcmp(root->value, *(values + i)) < 0) {
 				p = root;
+				p_level = root_level;
 				root = root->sibling;
 			}
+
+			// insertion spot is somewhere in the middle of the level
+
 			else if (strcmp(root->value, *(values + i)) > 0 && strcmp(p->value, *(values + i)) < 0) {
 				new_node = allocate_node(*(values) + i);
 				new_node->sibling = root;
 				p->sibling = new_node;
 				root = new_node->child;
+				root_level++;
 				i++;
 			}
+
+			// node to be inserted already exists in database
+
 			else if (strcmp(root->value, *(values + i)) == 0) {
 				p = root;
+				p_level = root_level;
 				root = root->child;
+				root_level++;
 				i++;
 			}
 
@@ -86,6 +102,8 @@ void tree_insert(struct TreeNode *root, char **values) {
 				p->child = new_node;
 				root = new_node->child;
 				p = new_node;
+				p_level = root_level;
+				root_level++;
 				i++;
 			}
 		}
@@ -96,22 +114,25 @@ void tree_insert(struct TreeNode *root, char **values) {
 
 			// case 1: traversed all nodes in this level i.e. adding a new ending node
 
-			if (&p->sibling == &root) {
+			if (p_level == root_level) {		// this condition doesn't work - need a new one
 				new_node = allocate_node(*(values + i));
 				p->sibling = new_node;
 				root = new_node->child;
 				p = new_node;
 				i++;
+				root_level++;
 			}
 
 			// case 2: no nodes in this level, i.e. adding a new starting node
 
-			else {
+			else if (p_level < root_level) {
 				new_node = allocate_node(*(values + i));
 				p->child = new_node;
 				root = new_node->child;
 				p = new_node;
 				i++;
+				p_level = root_level;
+				root_level++;
 			}
 		}
 
