@@ -152,7 +152,7 @@ void tree_search(const struct TreeNode *root, char **values) {
 	//struct TreeNode *p = NULL;
 	int level = 1;
 
-	//p = root;
+	root = root->child;
 
 	// loop for finding files with these attributes
 
@@ -173,10 +173,17 @@ void tree_search(const struct TreeNode *root, char **values) {
 	// loop for printing out files with these attributes
 	if (root->child == NULL) {
 		while (root != NULL) {
-			printf("%s", root->value);
+			printf("%s ", root->value);
 			root = root->sibling;
 		}
+
+		printf("\n");
 	}
+	else
+	{
+		printf("(NULL)\n\n");
+	}
+	
 	
 }
 
