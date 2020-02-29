@@ -48,7 +48,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 	// insertion code for when tree is empty
 
 	if (root->child == NULL) {
-		for (int j = 1; j < 5; j++) {
+		for (int j = 1; j < INPUT_ARG_MAX_NUM; j++) {
 		new_node = allocate_node(*(values + j));
 		root->child = new_node;
 		root = root->child;
@@ -62,7 +62,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 
 	// only handles insertion along a level somewhere in the middle, not at start or end
 
-	while (i < 5) {
+	while (i < INPUT_ARG_MAX_NUM) {
 		while (root != NULL) {
 
 			// haven't found spot to insert into, keep traversing along level
@@ -114,7 +114,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 
 			// case 1: traversed all nodes in this level i.e. adding a new ending node
 
-			if (p_level == root_level) {		// this condition doesn't work - need a new one
+			if (p_level == root_level) {
 				new_node = allocate_node(*(values + i));
 				p->sibling = new_node;
 				root = new_node->child;
@@ -187,8 +187,7 @@ void tree_search(const struct TreeNode *root, char **values) {
 	{
 		printf("(NULL)\n");
 	}
-	
-	
+
 }
 
 /**
@@ -197,5 +196,20 @@ void tree_search(const struct TreeNode *root, char **values) {
  *  @param tree A pointer to the root of the tree.
  */
 void tree_print(const struct TreeNode *tree) {
+	// int level = 0;		// need to add
+	// char *arr[INPUT_ARG_MAX_NUM] = {NULL};
+	
+	// tree = tree->child;
+
+	// // code for printing out attributes for one file
+
+	// while (tree != NULL) {
+	// 	arr[level] = 
+	// 	tree = tree->child;
+	// 	level++;
+	// }
+
+	// printf("\n");
+
 
 }

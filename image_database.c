@@ -34,7 +34,7 @@ int main(void) {
                 count = tokenize(buf, args);    // fgets populates buf with the next line from the stream during the while loop condition check
 
                 if (*(*(args)) == 'i') {        // comparing first string to i
-                        if (count == 5) {
+                        if (count == INPUT_ARG_MAX_NUM) {
                                 tree_insert(root_ptr, args);    // not compiling as before with ./name arg 1 so args does not include ./name
                         }
                         else
@@ -43,7 +43,7 @@ int main(void) {
                         }
                 }
                 else if (*(*(args)) == 'q') {
-                        if (count == 4) {
+                        if (count == INPUT_ARG_MAX_NUM - 1) {
                                 tree_search(root_ptr, args);
                         }
                         else
@@ -52,7 +52,13 @@ int main(void) {
                         }
                 }
                 else if (*(*(args)) == 'p') {
-                        tree_print(root_ptr);   // should add an if statement checking for arg count
+                        if (count == 1) {
+                                tree_print(root_ptr);
+                        }
+                        else
+                        {
+                                fprintf(stderr, "Invalid command.\n");
+                        }
                 }
                 else
                 {
