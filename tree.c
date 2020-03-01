@@ -38,11 +38,12 @@ void tree_insert(struct TreeNode *root, char **values) {
 
 	struct TreeNode *p = NULL;
 	struct TreeNode *new_node = NULL;
+	struct TreeNode *q = NULL;
 
 	int i = 1;
 	int current_level = i;
 	int p_level = 0;
-	int root_level = 0;
+	int q_level = 0;
 
 	// insertion code for when tree is empty
 
@@ -56,54 +57,57 @@ void tree_insert(struct TreeNode *root, char **values) {
 		return;
 	}
 
-	root = root->child;		// skip root node containing empty string as value
-	p = root;
-	root_level++;
+	q = root->child;		// skip root node containing empty string as value
+	q_level++;
 
 	// only handles insertion along a level somewhere in the middle, not at start or end
 
 	while (i < INPUT_ARG_MAX_NUM) {
-		while (root != NULL) {
+		while (q != NULL) {
 
 			// haven't found spot to insert into, keep traversing along level
 
-			if (strcmp(root->value, *(values + i)) < 0) {
-				p = root;
-				p_level = root_level;
-				root = root->sibling;
-			}
-
-			// insertion spot is somewhere in the middle of the level
-
-			else if (strcmp(root->value, *(values + i)) > 0 && strcmp(p->value, *(values + i)) < 0) {
-				new_node = allocate_node(*(values) + i);
-				new_node->sibling = root;
-				p->sibling = new_node;
-				root = new_node->child;
-				root_level++;
-				i++;
-			}
-
-			// node to be inserted already exists in database
-
-			else if (strcmp(root->value, *(values + i)) == 0) {
-				p = root;
-				p_level = root_level;
-				root = root->child;
-				root_level++;
-				i++;
+			if (strcmp(q->value, *(values + i)) < 0) {
+				p = q;
+				p_level = q_level;
+				q = q->sibling;
 			}
 
 			// handles insertion at starting of level when other nodes are already present on level
 
-			else if (strcmp(root->value, *(values + i)) > 0) {
+			else if (strcmp(q->value, *(values + i)) > 0 && p_level < q_level) {
+				if (p == NULL) {
+					p = root;
+				}
 				new_node = allocate_node(*(values + i));
-				new_node->sibling = root;
+				new_node->sibling = q;
 				p->child = new_node;
-				root = new_node->child;
+				q = new_node->child;
 				p = new_node;
-				p_level = root_level;
-				root_level++;
+				p_level = q_level;
+				q_level++;
+				i++;
+			}
+
+			// insertion spot is somewhere in the middle of the level
+			else if (strcmp(q->value, *(values + i)) > 0 && p_level == q_level) {
+				if (strcmp(q->value, *(values + i)) > 0 && strcmp(p->value, *(values + i)) < 0) {
+					new_node = allocate_node(*(values) + i);
+					new_node->sibling = q;
+					p->sibling = new_node;
+					q = new_node->child;
+					q_level++;
+					i++;
+				}
+			}
+
+			// node to be inserted already exists in database
+
+			else if (strcmp(q->value, *(values + i)) == 0) {
+				p = q;
+				p_level = q_level;
+				q = q->child;
+				q_level++;
 				i++;
 			}
 		}
@@ -114,25 +118,25 @@ void tree_insert(struct TreeNode *root, char **values) {
 
 			// case 1: traversed all nodes in this level i.e. adding a new ending node
 
-			if (p_level == root_level) {
+			if (p_level == q_level) {
 				new_node = allocate_node(*(values + i));
 				p->sibling = new_node;
-				root = new_node->child;
+				q = new_node->child;
 				p = new_node;
 				i++;
-				root_level++;
+				q_level++;
 			}
 
 			// case 2: no nodes in this level, i.e. adding a new starting node
 
-			else if (p_level < root_level) {
+			else if (p_level < q_level) {
 				new_node = allocate_node(*(values + i));
 				p->child = new_node;
-				root = new_node->child;
+				q = new_node->child;
 				p = new_node;
 				i++;
-				p_level = root_level;
-				root_level++;
+				p_level = q_level;
+				q_level++;
 			}
 		}
 
