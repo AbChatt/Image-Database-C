@@ -57,7 +57,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 	}
 
 	root = root->child;		// skip root node containing empty string as value
-	//p = root;
+	p = root;
 	root_level++;
 
 	// only handles insertion along a level somewhere in the middle, not at start or end
