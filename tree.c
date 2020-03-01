@@ -57,7 +57,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 	}
 
 	root = root->child;		// skip root node containing empty string as value
-	p = root;
+	//p = root;
 	root_level++;
 
 	// only handles insertion along a level somewhere in the middle, not at start or end
@@ -70,10 +70,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 			if (strcmp(root->value, *(values + i)) < 0) {
 				p = root;
 				p_level = root_level;
-
-				if (root->sibling != NULL) {
-					root = root->sibling;
-				}
+				root = root->sibling;
 			}
 
 			// insertion spot is somewhere in the middle of the level
