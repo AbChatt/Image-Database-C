@@ -8,7 +8,6 @@
 
 #include "tree.h"
 
-
 /**
  *  A helper function that allocates a new tree node.
  *
@@ -19,7 +18,7 @@
 struct TreeNode *allocate_node(const char *value) {
 
 	struct TreeNode *new_node = malloc(1 * sizeof(struct TreeNode));
-	new_node->value = malloc(INPUT_ARG_MAX_NUM * sizeof(char));		// need space to store value
+	new_node->value = malloc(BUFFER_SIZE * sizeof(char));		// need space to store value
 	
 	strcpy(new_node->value, value);
 	new_node->child = NULL;
@@ -58,6 +57,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 	}
 
 	root = root->child;		// skip root node containing empty string as value
+	p = root;
 	root_level++;
 
 	// only handles insertion along a level somewhere in the middle, not at start or end
@@ -70,7 +70,10 @@ void tree_insert(struct TreeNode *root, char **values) {
 			if (strcmp(root->value, *(values + i)) < 0) {
 				p = root;
 				p_level = root_level;
-				root = root->sibling;
+
+				if (root->sibling != NULL) {
+					root = root->sibling;
+				}
 			}
 
 			// insertion spot is somewhere in the middle of the level
@@ -196,20 +199,61 @@ void tree_search(const struct TreeNode *root, char **values) {
  *  @param tree A pointer to the root of the tree.
  */
 void tree_print(const struct TreeNode *tree) {
-	// int level = 0;		// need to add
-	// char *arr[INPUT_ARG_MAX_NUM] = {NULL};
+	struct TreeNode *level_1 = NULL;
+	struct TreeNode *level_2 = NULL;
+	struct TreeNode *level_3 = NULL;
+	struct TreeNode *level_4 = NULL;
+
+	if (tree->child == NULL) {
+		printf("(NULL)\n");
+		return;
+	}
+
+	level_1 = tree->child;
+	level_2 = level_1->child;
+	level_3 = level_2->child;
+	level_4 = level_3->child;
+		
+	while (level_1 != NULL) {
+		while (level_2 != NULL) {
+			while (level_3 != NULL) {
+				while (level_4 != NULL) {
+					printf("%s %s %s %s\n", level_1->value, level_2->value, level_3->value, level_4->value);
+					level_4 = level_4->sibling;
+				}
+
+				level_3 = level_3->sibling;
+
+				if (level_3 != NULL) {
+					level_4 = level_3->child;
+				}
+			}
+
+			level_2 = level_2->sibling;
+			
+			if (level_2 != NULL) {
+				level_3 = level_2->child;
+
+				if (level_3 != NULL) {
+					level_4 = level_3->child;
+				}
+			}
+		}
+
+		level_1 = level_1->sibling;
+
+		if (level_1 != NULL) {
+			level_2 = level_1->child;
+
+			if (level_2 != NULL) {
+				level_3 = level_2->child;
+
+				if (level_3 != NULL) {
+					level_4 = level_3->child;
+				}
+			}
+		}
+		
+	}
 	
-	// tree = tree->child;
-
-	// // code for printing out attributes for one file
-
-	// while (tree != NULL) {
-	// 	arr[level] = 
-	// 	tree = tree->child;
-	// 	level++;
-	// }
-
-	// printf("\n");
-
-
 }

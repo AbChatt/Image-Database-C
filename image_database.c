@@ -26,9 +26,7 @@ int main(void) {
 
         // Add your code below:
 
-        int count;
-        //char* arr = malloc(5 * sizeof(char *));
-        //int i;
+        int count = 0;
 
         while (fgets(buf, BUFFER_SIZE, stdin) != NULL) {
                 count = tokenize(buf, args);    // fgets populates buf with the next line from the stream during the while loop condition check
